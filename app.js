@@ -10,7 +10,7 @@ const mongoose = require('mongoose')
     LOAD THE CONFIG
 ==========================*/
 const config = require('./config')
-const port = process.env.PORT || 3000 
+const port = process.env.PORT || 3000
 
 /* =======================
     EXPRESS CONFIGURATION
@@ -18,7 +18,7 @@ const port = process.env.PORT || 3000
 const app = express()
 
 // parse JSON and url-encoded query
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // print the request log on console
@@ -40,15 +40,15 @@ app.listen(port, () => {
     console.log(`Express is running on port ${port}`)
 })
 
-
-
 /* =======================
     CONNECT TO MONGODB SERVER
 ==========================*/
-mongoose.connect(config.mongodbUri)
-mongoose.Promise = global.Promise
-const db = mongoose.connection
-db.on('error', console.error)
-db.once('open', ()=>{
-    console.log('connected to mongodb server')
-})
+
+mongoose
+    .connect(config.mongodbUri, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log('Connected to Database')
+    })
+    .catch(err => {
+        console.log('Not Connected to Database ERROR! ', err)
+    })
