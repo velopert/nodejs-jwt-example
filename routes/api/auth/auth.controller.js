@@ -15,7 +15,7 @@ exports.register = (req, res) => {
 
     // create a new user if does not exist
     const create = (user) => {
-        if(user) {
+        if (user) {
             throw new Error('username exists')
         } else {
             return User.create(username, password)
@@ -30,7 +30,7 @@ exports.register = (req, res) => {
 
     // assign admin if count is 1
     const assign = (count) => {
-        if(count === 1) {
+        if (count === 1) {
             return newUser.assignAdmin()
         } else {
             // if not, return a promise that returns false
@@ -55,11 +55,11 @@ exports.register = (req, res) => {
 
     // check username duplication
     User.findOneByUsername(username)
-    .then(create)
-    .then(count)
-    .then(assign)
-    .then(respond)
-    .catch(onError)
+        .then(create)
+        .then(count)
+        .then(assign)
+        .then(respond)
+        .catch(onError)
 }
 
 /*
@@ -71,17 +71,17 @@ exports.register = (req, res) => {
 */
 
 exports.login = (req, res) => {
-    const {username, password} = req.body
+    const { username, password } = req.body
     const secret = req.app.get('jwt-secret')
 
     // check the user info & generate the jwt
     const check = (user) => {
-        if(!user) {
+        if (!user) {
             // user does not exist
             throw new Error('login failed')
         } else {
             // user exists, check the password
-            if(user.verify(password)) {
+            if (user.verify(password)) {
                 // create a promise that generates jwt asynchronously
                 const p = new Promise((resolve, reject) => {
                     jwt.sign(
@@ -89,15 +89,15 @@ exports.login = (req, res) => {
                             _id: user._id,
                             username: user.username,
                             admin: user.admin
-                        }, 
-                        secret, 
+                        },
+                        secret,
                         {
                             expiresIn: '7d',
                             issuer: 'velopert.com',
                             subject: 'userInfo'
                         }, (err, token) => {
                             if (err) reject(err)
-                            resolve(token) 
+                            resolve(token)
                         })
                 })
                 return p
@@ -107,7 +107,7 @@ exports.login = (req, res) => {
         }
     }
 
-    // respond the token 
+    // respond the token
     const respond = (token) => {
         res.json({
             message: 'logged in successfully',
@@ -124,9 +124,9 @@ exports.login = (req, res) => {
 
     // find the user
     User.findOneByUsername(username)
-    .then(check)
-    .then(respond)
-    .catch(onError)
+        .then(check)
+        .then(respond)
+        .catch(onError)
 
 }
 
