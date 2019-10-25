@@ -1,4 +1,5 @@
 # NODEJS-JWT-EXAMPLE
+
 This project is a sample implementation of an authentication system that uses JSON Web Token to manage users' login data in Node.js web server.
 
 Express.js, Mongoose, ES6 Syntax is used in this project.
@@ -6,44 +7,66 @@ Express.js, Mongoose, ES6 Syntax is used in this project.
 Tutorial on this project is available at https://velopert.com/2448 (KOREAN)
 
 ## Getting Started
+
 ### Prerequisites
-- node.js 6.9.x
-- npm 3.x
+
+- node.js 12.0.x
+- npm 6.x
 - MongoDB 3.0
 
 ### Installing & Configuration
-1) Install dependencies
+
+1. Install dependencies
+
 ```
-npm install
+yarn
 ```
-2) Rename `config.example.js` to `config.js`
-3) Get a mongodb server and input `mongodbUri` of `config.js`
+
+2. Rename `config.example.js` to `config.js`
+3. Get a mongodb server and input `mongodbUri` of `config.js`
 
 ### Run the server
+
 ```
-npm start
+yarn start
+```
+
+### Run the server in dev mode
+
+```
+yarn dev
 ```
 
 ## APIs
+
 ### Auth Route
+
 #### Register
+
 `POST /api/auth/register`
+
 ```
 {
     username,
     password
 }
 ```
+
 **Description**: creates a new user; first user will be assigned as an admin user. Password is stored in `HMAC-SHA1` format
+
 #### Login
+
 `POST /api/auth/login`
+
 ```
 {
     username,
     password
 }
 ```
+
 **Description**: logs in to the server. Server will return a JWT token as:
+
 ```javascript
 {
   "message": "logged in successfully",
@@ -52,23 +75,28 @@ npm start
 ```
 
 #### Check
-`GET /api/auth/check` or `GET /api/auth/check?token={token}`  
+
+`GET /api/auth/check` or `GET /api/auth/check?token={token}`
 
 **Description**: checks the JWT. Token should be passed as Url-encoded query or `x-access-token` header
 
 ### User Route
-APIs in user routes need admin's permission to process   
+
+APIs in user routes need admin's permission to process
 
 #### Check
+
 `GET /api/user/list`
 
 **Description**: retrieves all user list
 
 #### Assign Admin
-`POST /api/user/assign-admin/:username`  
+
+`POST /api/user/assign-admin/:username`
 
 **Description**: assigns admin permission to the given user
 
 ## License
-[MIT License](http://opensource.org/licenses/MIT).  
+
+[MIT License](http://opensource.org/licenses/MIT).
 Copyright (c) 2016 [velopert](https://www.velopert.com/).
